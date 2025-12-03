@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:task_wise/features/auth/presentation/pages/login_page.dart';
+import 'package:task_wise/features/auth/presentation/pages/signup_page.dart';
 
-class SignupPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => const SignupPage());
-
-  const SignupPage({super.key});
+class LoginPage extends StatefulWidget {
+  static route() => MaterialPageRoute(builder: (context) => const LoginPage());
+  const LoginPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -21,12 +19,13 @@ class _SignupPageState extends State<SignupPage> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    nameController.dispose();
     super.dispose();
   }
 
-  void signUpUser() {
-    if (formKey.currentState!.validate()) {}
+  void loginUser() {
+    if (formKey.currentState!.validate()) {
+
+    }
   }
 
   @override
@@ -40,19 +39,8 @@ class _SignupPageState extends State<SignupPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Sign Up.",
+                "Login.",
                 style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 15),
-              TextFormField(
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return "Please enter your name";
-                  }
-                  return null;
-                },
-                controller: nameController,
-                decoration: InputDecoration(hintText: "Name"),
               ),
               const SizedBox(height: 15),
               TextFormField(
@@ -78,22 +66,22 @@ class _SignupPageState extends State<SignupPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: signUpUser,
+                onPressed: loginUser,
                 child: Text(
-                  "SIGN UP",
+                  "LOGIN",
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
               const SizedBox(height: 15),
               GestureDetector(
-                onTap: () => Navigator.of(context).push(LoginPage.route()),
+                onTap: () => Navigator.of(context).push(SignupPage.route()),
                 child: RichText(
                   text: TextSpan(
-                    text: "Already have an account? ",
+                    text: "Don't have an account? ",
                     style: Theme.of(context).textTheme.titleMedium,
                     children: [
                       TextSpan(
-                        text: "Sign In",
+                        text: "Sign Up",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
