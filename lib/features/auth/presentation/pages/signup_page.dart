@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_wise/features/auth/presentation/pages/login_page.dart';
 
 class SignupPage extends StatefulWidget {
@@ -26,7 +28,15 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void signUpUser() {
-    if (formKey.currentState!.validate()) {}
+    if (formKey.currentState!.validate()) {
+      context.read<AuthBloc>().add(
+        AuthSignUp(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+          name: nameController.text.trim(),
+        ),
+      );
+    }
   }
 
   @override
