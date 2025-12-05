@@ -13,12 +13,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text("My Tasks"),
         actions: [IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.add))],
       ),
       body: Column(
         children: [
-          // date selector
           DateSelector(),
           Row(
             children: [
