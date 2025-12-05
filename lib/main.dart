@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'TaskWise',
       theme: ThemeData(
+        fontFamily: "Cera Pro",
         inputDecorationTheme: InputDecorationTheme(
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 3, color: Colors.red),
