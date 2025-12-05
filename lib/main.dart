@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
 import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_wise/features/auth/presentation/pages/login_page.dart';
+import 'package:task_wise/features/home/presentation/pages/home_page.dart';
 import 'package:task_wise/init_dependencies.dart';
 
 void main() async {
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'TaskWise',
       theme: ThemeData(
+        fontFamily: "Cera Pro",
         inputDecorationTheme: InputDecorationTheme(
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 3, color: Colors.red),
@@ -74,7 +76,7 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
-            return Center(child: Text("Logged in"));
+            return HomePage();
           } else {
             return LoginPage();
           }

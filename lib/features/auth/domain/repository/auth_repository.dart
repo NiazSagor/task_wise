@@ -15,4 +15,10 @@ abstract interface class AuthRepository {
   });
 
   Future<Either<Failure, User>> currentUser();
+
+  Future<Either<Failure, User>> loginOfflineUser({
+    required String id,
+    required String name,
+    required String email,
+  });
 }

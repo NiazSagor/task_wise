@@ -29,8 +29,16 @@ void _initAuth() {
     () => AuthRemoteDataSourceImpl(supabaseClient: serviceLocator()),
   );
 
+  serviceLocator.registerFactory<AuthLocalDatSource>(
+    () => AuthLocalDataSourceImpl(),
+  );
+
   serviceLocator.registerFactory<AuthRepository>(
-    () => AuthRepositoryImpl(serviceLocator(), serviceLocator()),
+    () => AuthRepositoryImpl(
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+    ),
   );
 
   serviceLocator.registerFactory(() => UserSignUpUseCase(serviceLocator()));

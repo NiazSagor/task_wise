@@ -6,6 +6,7 @@ import 'package:task_wise/core/network/connection_checker.dart';
 import 'package:task_wise/core/secrets/app_secrets.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:task_wise/features/auth/data/datasources/auth_local_date_source.dart';
 import 'package:task_wise/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:task_wise/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:task_wise/features/auth/domain/repository/auth_repository.dart';

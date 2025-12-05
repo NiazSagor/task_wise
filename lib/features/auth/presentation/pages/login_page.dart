@@ -4,6 +4,7 @@ import 'package:task_wise/core/common/widgets/loader.dart';
 import 'package:task_wise/core/utils/show_snackbar.dart';
 import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_wise/features/auth/presentation/pages/signup_page.dart';
+import 'package:task_wise/features/home/presentation/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => const LoginPage());
@@ -48,7 +49,11 @@ class _LoginPageState extends State<LoginPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             } else if (state is AuthSuccess) {
-              // todo: go to the tasks page
+              Navigator.pushAndRemoveUntil(
+                context,
+                HomePage.route(),
+                (_) => false,
+              );
             }
           },
           builder: (context, state) {
