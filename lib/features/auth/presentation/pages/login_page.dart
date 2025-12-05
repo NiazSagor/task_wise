@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 15),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(SignupPage.route()),
+                    onTap: () => Navigator.push(context, SignupPage.route()),
                     child: RichText(
                       text: TextSpan(
                         text: "Don't have an account? ",
