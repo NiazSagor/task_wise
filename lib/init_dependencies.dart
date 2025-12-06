@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,5 +15,9 @@ import 'package:task_wise/features/auth/domain/usecases/current_user.dart';
 import 'package:task_wise/features/auth/domain/usecases/user_login.dart';
 import 'package:task_wise/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:task_wise/features/task/data/datasources/task_remote_data_source.dart';
+import 'package:task_wise/features/task/data/repository/task_repository_impl.dart';
+
+import 'features/task/domain/repository/task_repository.dart';
 
 part 'init_dependencies.main.dart';

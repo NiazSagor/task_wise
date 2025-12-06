@@ -9,7 +9,6 @@ abstract interface class TaskRemoteDataSource {
     required String title,
     required String description,
     required String status,
-    required String createdAt,
   });
 
   Future<void> updateTask({required String id, required String status});
@@ -29,7 +28,6 @@ class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
     required String title,
     required String description,
     required String status,
-    required String createdAt,
   }) async {
     try {
       final response = await client.post(

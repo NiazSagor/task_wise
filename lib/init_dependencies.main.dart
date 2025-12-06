@@ -4,10 +4,21 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
+  _initTask();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
   );
+
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: AppSecrets.taskBaseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(() => dio);
 
   serviceLocator.registerLazySingleton(() => supabase.client);
 
@@ -55,5 +66,14 @@ void _initAuth() {
       getCurrentUserUseCase: serviceLocator(),
       appUserCubit: serviceLocator(),
     ),
+  );
+}
+
+void _initTask() {
+  serviceLocator.registerFactory<TaskRemoteDataSource>(
+    () => TaskRemoteDatSourceImpl(client: serviceLocator()),
+  );
+  serviceLocator.registerFactory<TaskRepository>(
+    () => TaskRepositoryImpl(remoteDataSource: serviceLocator()),
   );
 }
