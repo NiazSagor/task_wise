@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:task_wise/core/constants/utils.dart';
 import 'package:task_wise/features/home/presentation/widgets/date_selector.dart';
 import 'package:task_wise/features/home/presentation/widgets/task_card.dart';
+import 'package:task_wise/features/task/presentation/pages/add_new_task.dart';
 
 class HomePage extends StatelessWidget {
   static route() => MaterialPageRoute(builder: (context) => HomePage());
@@ -15,7 +16,14 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text("My Tasks"),
-        actions: [IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.add))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, AddNewTaskPage.route());
+            },
+            icon: Icon(CupertinoIcons.add),
+          ),
+        ],
       ),
       body: Column(
         children: [
