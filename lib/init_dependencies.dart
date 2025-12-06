@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
+import 'package:task_wise/core/network/auth_interceptor.dart';
 import 'package:task_wise/core/network/connection_checker.dart';
 import 'package:task_wise/core/secrets/app_secrets.dart';
 import 'package:hive/hive.dart';
@@ -14,5 +17,13 @@ import 'package:task_wise/features/auth/domain/usecases/current_user.dart';
 import 'package:task_wise/features/auth/domain/usecases/user_login.dart';
 import 'package:task_wise/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:task_wise/features/task/data/datasources/task_remote_data_source.dart';
+import 'package:task_wise/features/task/data/repository/task_repository_impl.dart';
+import 'package:task_wise/features/task/domain/usecases/add_task_use_case.dart';
+import 'package:task_wise/features/task/domain/usecases/delete_task_use_case.dart';
+import 'package:task_wise/features/task/domain/usecases/get_tasks_use_case.dart';
+import 'package:task_wise/features/task/domain/usecases/update_task_use_case.dart';
+
+import 'features/task/domain/repository/task_repository.dart';
 
 part 'init_dependencies.main.dart';

@@ -4,10 +4,30 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
+  _initTask();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
   );
+
+  final sharedPreferences = await SharedPreferences.getInstance();
+  serviceLocator.registerLazySingleton(() => sharedPreferences);
+
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: AppSecrets.taskBaseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => AuthInterceptor(sharedPreferences: serviceLocator()),
+  );
+
+  dio.interceptors.add(serviceLocator<AuthInterceptor>());
+
+  serviceLocator.registerLazySingleton(() => dio);
 
   serviceLocator.registerLazySingleton(() => supabase.client);
 
@@ -55,5 +75,26 @@ void _initAuth() {
       getCurrentUserUseCase: serviceLocator(),
       appUserCubit: serviceLocator(),
     ),
+  );
+}
+
+void _initTask() {
+  serviceLocator.registerFactory<TaskRemoteDataSource>(
+    () => TaskRemoteDatSourceImpl(client: serviceLocator()),
+  );
+  serviceLocator.registerFactory<TaskRepository>(
+    () => TaskRepositoryImpl(remoteDataSource: serviceLocator()),
+  );
+  serviceLocator.registerFactory(
+    () => AddTaskUseCase(taskRepository: serviceLocator()),
+  );
+  serviceLocator.registerFactory(
+    () => DeleteTaskUseCase(taskRepository: serviceLocator()),
+  );
+  serviceLocator.registerFactory(
+    () => GetTasksUseCase(taskRepository: serviceLocator()),
+  );
+  serviceLocator.registerFactory(
+    () => UpdateTaskUseCase(taskRepository: serviceLocator()),
   );
 }
