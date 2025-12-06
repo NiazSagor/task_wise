@@ -17,6 +17,10 @@ import 'package:task_wise/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_wise/features/task/data/datasources/task_remote_data_source.dart';
 import 'package:task_wise/features/task/data/repository/task_repository_impl.dart';
+import 'package:task_wise/features/task/domain/usecases/add_task_use_case.dart';
+import 'package:task_wise/features/task/domain/usecases/delete_task_use_case.dart';
+import 'package:task_wise/features/task/domain/usecases/get_tasks_use_case.dart';
+import 'package:task_wise/features/task/domain/usecases/update_task_use_case.dart';
 
 import 'features/task/domain/repository/task_repository.dart';
 

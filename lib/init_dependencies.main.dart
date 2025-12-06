@@ -76,4 +76,16 @@ void _initTask() {
   serviceLocator.registerFactory<TaskRepository>(
     () => TaskRepositoryImpl(remoteDataSource: serviceLocator()),
   );
+  serviceLocator.registerFactory(
+    () => AddTaskUseCase(taskRepository: serviceLocator()),
+  );
+  serviceLocator.registerFactory(
+    () => DeleteTaskUseCase(taskRepository: serviceLocator()),
+  );
+  serviceLocator.registerFactory(
+    () => GetTasksUseCase(taskRepository: serviceLocator()),
+  );
+  serviceLocator.registerFactory(
+    () => UpdateTaskUseCase(taskRepository: serviceLocator()),
+  );
 }
