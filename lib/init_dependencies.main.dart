@@ -10,6 +10,9 @@ Future<void> initDependencies() async {
     anonKey: AppSecrets.supabaseAnonKey,
   );
 
+  final sharedPreferences = await SharedPreferences.getInstance();
+  serviceLocator.registerLazySingleton(() => sharedPreferences);
+
   final dio = Dio(
     BaseOptions(
       baseUrl: AppSecrets.taskBaseUrl,
@@ -17,6 +20,12 @@ Future<void> initDependencies() async {
       receiveTimeout: const Duration(seconds: 10),
     ),
   );
+
+  serviceLocator.registerLazySingleton(
+    () => AuthInterceptor(sharedPreferences: serviceLocator()),
+  );
+
+  dio.interceptors.add(serviceLocator<AuthInterceptor>());
 
   serviceLocator.registerLazySingleton(() => dio);
 

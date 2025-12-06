@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
+import 'package:task_wise/core/network/auth_interceptor.dart';
 import 'package:task_wise/core/network/connection_checker.dart';
 import 'package:task_wise/core/secrets/app_secrets.dart';
 import 'package:hive/hive.dart';
