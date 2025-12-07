@@ -4,7 +4,10 @@ import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
 import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_wise/features/auth/presentation/pages/login_page.dart';
 import 'package:task_wise/features/home/presentation/pages/home_page.dart';
+import 'package:task_wise/features/task/presentation/bloc/task_bloc.dart';
 import 'package:task_wise/init_dependencies.dart';
+
+import 'features/home/presentation/bloc/home_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +17,8 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
         BlocProvider(create: (context) => serviceLocator<AuthBloc>()),
+        BlocProvider(create: (context) => serviceLocator<TaskBloc>()),
+        BlocProvider(create: (context) => serviceLocator<HomeBloc>()),
       ],
       child: const MyApp(),
     ),

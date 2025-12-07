@@ -80,8 +80,15 @@ void _initAuth() {
 
 void _initTask() {
   serviceLocator.registerFactory<TaskRemoteDataSource>(
-    () => TaskRemoteDatSourceImpl(client: serviceLocator()),
+    () => TaskSupabaseDataSourceImpl(client: serviceLocator()),
   );
+  serviceLocator.registerFactory<GetTaskRemoteDataSource>(
+    () => GetTaskSupabaseDataSource(client: serviceLocator()),
+  );
+  serviceLocator.registerFactory<GetTaskRepository>(
+    () => GetTaskRepositoryImpl(remoteDataSource: serviceLocator()),
+  );
+
   serviceLocator.registerFactory<TaskRepository>(
     () => TaskRepositoryImpl(remoteDataSource: serviceLocator()),
   );
@@ -96,5 +103,16 @@ void _initTask() {
   );
   serviceLocator.registerFactory(
     () => UpdateTaskUseCase(taskRepository: serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => TaskBloc(
+      addTaskUseCase: serviceLocator(),
+      getTasksUseCase: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => HomeBloc(getTasksUseCase: serviceLocator()),
   );
 }
