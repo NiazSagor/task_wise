@@ -11,12 +11,13 @@ class GetTasksUseCase implements UseCase<List<Task>, GetTasksParams> {
 
   @override
   Future<Either<Failure, List<Task>>> call(GetTasksParams params) async {
-    return await taskRepository.getTasks(status: params.status);
+    return await taskRepository.getTasks(params.status, userId: params.userId);
   }
 }
 
 class GetTasksParams {
+  final String userId;
   final String status;
 
-  GetTasksParams(this.status);
+  GetTasksParams({required this.status, required this.userId});
 }

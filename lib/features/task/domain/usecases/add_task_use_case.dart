@@ -30,12 +30,12 @@ class AddTaskParams {
   final DateTime dueAt;
   final String userId;
 
-  AddTaskParams(
-    this.title,
-    this.description,
-    this.status,
-    this.hexColor,
-    this.dueAt,
-    this.userId,
-  );
+  AddTaskParams({
+    required this.title,
+    required this.description,
+    required this.status,
+    required this.hexColor,
+    required this.dueAt,
+    required this.userId,
+  });
 }

@@ -19,5 +19,8 @@ abstract interface class TaskRepository {
 
   Future<Either<Failure, void>> deleteTask({required String id});
 
-  Future<Either<Failure, List<Task>>> getTasks({required String status});
+  Future<Either<Failure, List<Task>>> getTasks(
+    String status, {
+    required String userId,
+  });
 }

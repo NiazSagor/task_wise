@@ -19,7 +19,7 @@ abstract interface class TaskRemoteDataSource {
 
   Future<void> deleteTask({required String id});
 
-  Future<List<TaskModel>> getTasks({required String status});
+  Future<List<TaskModel>> getTasks(String status, {required String userId});
 }
 
 class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
@@ -67,7 +67,10 @@ class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
   }
 
   @override
-  Future<List<TaskModel>> getTasks({required String status}) async {
+  Future<List<TaskModel>> getTasks(
+    String status, {
+    required String userId,
+  }) async {
     try {
       final response = await client.get("/listTaskByStatus/$status");
       final decodedJson =
@@ -139,7 +142,7 @@ class TaskSupabaseDataSourceImpl implements TaskRemoteDataSource {
   }
 
   @override
-  Future<List<TaskModel>> getTasks({required String status}) {
+  Future<List<TaskModel>> getTasks(String status, {required String userId}) {
     throw UnimplementedError();
   }
 

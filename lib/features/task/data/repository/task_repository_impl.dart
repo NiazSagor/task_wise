@@ -25,7 +25,7 @@ class TaskRepositoryImpl implements TaskRepository {
         status: status,
         hexColo: hexColo,
         dueAt: dueAt,
-        userId: userId
+        userId: userId,
       );
       return right(task);
     } catch (e) {
@@ -57,9 +57,12 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<Either<Failure, List<Task>>> getTasks({required String status}) async {
+  Future<Either<Failure, List<Task>>> getTasks(
+    String status, {
+    required String userId,
+  }) async {
     try {
-      final tasks = await remoteDataSource.getTasks(status: status);
+      final tasks = await remoteDataSource.getTasks(status, userId: userId);
       return right(tasks);
     } catch (e) {
       return left(Failure(e.toString()));
