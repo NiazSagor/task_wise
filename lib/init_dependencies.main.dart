@@ -96,6 +96,10 @@ void _initTask() {
     ),
   );
 
+  serviceLocator.registerFactory<TaskLocalDataSource>(
+    () => TaskLocalDataSourceImpl(box: serviceLocator()),
+  );
+
   serviceLocator.registerFactory<TaskRepository>(
     () => TaskRepositoryImpl(
       remoteDataSource: serviceLocator(),
