@@ -6,6 +6,7 @@ import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
 import 'package:task_wise/core/common/widgets/loader.dart';
 import 'package:task_wise/core/constants/utils.dart';
 import 'package:task_wise/core/utils/show_snackbar.dart';
+import 'package:task_wise/features/home/presentation/pages/home_page.dart';
 import 'package:task_wise/features/task/presentation/bloc/task_bloc.dart';
 
 class AddNewTaskPage extends StatefulWidget {
@@ -82,7 +83,7 @@ class _AddNewTaskPageState extends State<AddNewTaskPage> {
             showSnackBar(context, state.message);
           } else if (state is AddNewTaskSuccess) {
             showSnackBar(context, "Task added successfully");
-            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(context, HomePage.route(), (_) => false);
           }
         },
         builder: (context, state) {

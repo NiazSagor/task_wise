@@ -111,4 +111,8 @@ void _initTask() {
       getTasksUseCase: serviceLocator(),
     ),
   );
+
+  serviceLocator.registerLazySingleton(
+    () => HomeBloc(getTasksUseCase: serviceLocator()),
+  );
 }

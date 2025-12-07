@@ -13,7 +13,6 @@ class TaskModel extends Task {
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
-    debugPrint("TaskModel.fromJson json: $json");
     return TaskModel(
       title: json['title'] ?? "",
       description: json['description'] ?? "",
