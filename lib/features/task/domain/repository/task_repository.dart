@@ -7,6 +7,9 @@ abstract interface class TaskRepository {
     required String title,
     required String description,
     required String status,
+    required String hexColo,
+    required DateTime dueAt,
+    required String userId,
   });
 
   Future<Either<Failure, void>> updateTask({

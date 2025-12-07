@@ -80,7 +80,7 @@ void _initAuth() {
 
 void _initTask() {
   serviceLocator.registerFactory<TaskRemoteDataSource>(
-    () => TaskRemoteDatSourceImpl(client: serviceLocator()),
+    () => TaskSupabaseDataSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerFactory<TaskRepository>(
     () => TaskRepositoryImpl(remoteDataSource: serviceLocator()),

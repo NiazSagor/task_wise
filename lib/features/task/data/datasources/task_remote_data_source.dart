@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:task_wise/core/error/exceptions.dart';
 import 'package:task_wise/features/task/data/models/task_model.dart';
 
@@ -9,6 +10,9 @@ abstract interface class TaskRemoteDataSource {
     required String title,
     required String description,
     required String status,
+    required String hexColo,
+    required DateTime dueAt,
+    required String userId,
   });
 
   Future<void> updateTask({required String id, required String status});
@@ -28,6 +32,9 @@ class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
     required String title,
     required String description,
     required String status,
+    required String hexColo,
+    required DateTime dueAt,
+    required String userId,
   }) async {
     try {
       final response = await client.post(
@@ -94,5 +101,50 @@ class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
     } catch (e) {
       throw ServerException(e.toString());
     }
+  }
+}
+
+class TaskSupabaseDataSourceImpl implements TaskRemoteDataSource {
+  final SupabaseClient client;
+
+  TaskSupabaseDataSourceImpl({required this.client});
+
+  @override
+  Future<TaskModel> createTask({
+    required String title,
+    required String description,
+    required String status,
+    required String hexColo,
+    required DateTime dueAt,
+    required String userId,
+  }) async {
+    try {
+      final response = await client.from("tasks").insert({
+        "title": title,
+        "description": description,
+        "dueAt": dueAt.toIso8601String(),
+        "created_at": DateTime.now().toIso8601String(),
+        "hexColor": hexColo,
+        "user_id": userId,
+      }).select();
+      return TaskModel.fromJson(response[0]);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteTask({required String id}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<TaskModel>> getTasks({required String status}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateTask({required String id, required String status}) {
+    throw UnimplementedError();
   }
 }

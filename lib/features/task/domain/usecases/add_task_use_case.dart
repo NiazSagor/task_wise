@@ -15,6 +15,9 @@ class AddTaskUseCase implements UseCase<Task, AddTaskParams> {
       title: params.title,
       description: params.description,
       status: params.status,
+      hexColo: params.hexColor,
+      dueAt: params.dueAt,
+      userId: params.userId,
     );
   }
 }
@@ -23,6 +26,16 @@ class AddTaskParams {
   final String title;
   final String description;
   final String status;
+  final String hexColor;
+  final DateTime dueAt;
+  final String userId;
 
-  AddTaskParams(this.title, this.description, this.status);
+  AddTaskParams(
+    this.title,
+    this.description,
+    this.status,
+    this.hexColor,
+    this.dueAt,
+    this.userId,
+  );
 }

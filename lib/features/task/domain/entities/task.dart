@@ -3,7 +3,9 @@ class Task {
   final String title;
   final String description;
   final String status;
-  final String createdAt;
+  final DateTime createdAt;
+  final String hexColor;
+  final DateTime dueAt;
 
   Task({
     required this.title,
@@ -11,5 +13,7 @@ class Task {
     required this.description,
     required this.status,
     required this.createdAt,
+    required this.hexColor,
+    required this.dueAt,
   });
 }

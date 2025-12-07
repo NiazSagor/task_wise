@@ -7,16 +7,19 @@ class TaskModel extends Task {
     required super.status,
     required super.createdAt,
     required super.id,
+    required super.hexColor,
+    required super.dueAt,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
-    final data = json['data'] as Map<String, dynamic>;
     return TaskModel(
-      title: data['title'] as String,
-      description: data['description'] as String,
-      status: data['status'] as String,
-      id: data['_id'] as String,
-      createdAt: data['createdDate'] as String,
+      title: json['title'] ?? "",
+      description: json['description'] ?? "",
+      status: json['status'] ?? "",
+      id: json['id'] ?? "",
+      hexColor: json['hexColor'] ?? "",
+      createdAt: DateTime.parse(json['created_at']),
+      dueAt: DateTime.parse(json['dueAt']),
     );
   }
 }

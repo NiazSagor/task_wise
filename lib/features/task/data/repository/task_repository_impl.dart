@@ -14,12 +14,18 @@ class TaskRepositoryImpl implements TaskRepository {
     required String title,
     required String description,
     required String status,
+    required String hexColo,
+    required DateTime dueAt,
+    required String userId,
   }) async {
     try {
       final task = await remoteDataSource.createTask(
         title: title,
         description: description,
         status: status,
+        hexColo: hexColo,
+        dueAt: dueAt,
+        userId: userId
       );
       return right(task);
     } catch (e) {
