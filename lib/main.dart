@@ -4,6 +4,7 @@ import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
 import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_wise/features/auth/presentation/pages/login_page.dart';
 import 'package:task_wise/features/home/presentation/pages/home_page.dart';
+import 'package:task_wise/features/task/presentation/bloc/task_bloc.dart';
 import 'package:task_wise/init_dependencies.dart';
 
 void main() async {
@@ -14,6 +15,7 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
         BlocProvider(create: (context) => serviceLocator<AuthBloc>()),
+        BlocProvider(create: (context) => serviceLocator<TaskBloc>()),
       ],
       child: const MyApp(),
     ),

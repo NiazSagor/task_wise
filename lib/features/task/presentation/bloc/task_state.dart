@@ -19,8 +19,6 @@ final class TasksDisplaySuccess extends TaskState {
 
 final class TaskLoading extends TaskState {}
 
-final class AddNewTaskFailure extends TaskState {}
-
 final class AddNewTaskSuccess extends TaskState {
   final Task task;
 

@@ -97,4 +97,11 @@ void _initTask() {
   serviceLocator.registerFactory(
     () => UpdateTaskUseCase(taskRepository: serviceLocator()),
   );
+
+  serviceLocator.registerLazySingleton(
+    () => TaskBloc(
+      addTaskUseCase: serviceLocator(),
+      getTasksUseCase: serviceLocator(),
+    ),
+  );
 }

@@ -23,6 +23,7 @@ import 'package:task_wise/features/task/domain/usecases/add_task_use_case.dart';
 import 'package:task_wise/features/task/domain/usecases/delete_task_use_case.dart';
 import 'package:task_wise/features/task/domain/usecases/get_tasks_use_case.dart';
 import 'package:task_wise/features/task/domain/usecases/update_task_use_case.dart';
+import 'package:task_wise/features/task/presentation/bloc/task_bloc.dart';
 
 import 'features/task/domain/repository/task_repository.dart';
 

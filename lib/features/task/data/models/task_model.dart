@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:task_wise/features/task/domain/entities/task.dart';
 
 class TaskModel extends Task {
@@ -12,11 +13,12 @@ class TaskModel extends Task {
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
+    debugPrint("TaskModel.fromJson json: $json");
     return TaskModel(
       title: json['title'] ?? "",
       description: json['description'] ?? "",
       status: json['status'] ?? "",
-      id: json['id'] ?? "",
+      id: (json['id'] as int).toString(),
       hexColor: json['hexColor'] ?? "",
       createdAt: DateTime.parse(json['created_at']),
       dueAt: DateTime.parse(json['dueAt']),
