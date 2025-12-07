@@ -82,6 +82,13 @@ void _initTask() {
   serviceLocator.registerFactory<TaskRemoteDataSource>(
     () => TaskSupabaseDataSourceImpl(client: serviceLocator()),
   );
+  serviceLocator.registerFactory<GetTaskRemoteDataSource>(
+    () => GetTaskSupabaseDataSource(client: serviceLocator()),
+  );
+  serviceLocator.registerFactory<GetTaskRepository>(
+    () => GetTaskRepositoryImpl(remoteDataSource: serviceLocator()),
+  );
+
   serviceLocator.registerFactory<TaskRepository>(
     () => TaskRepositoryImpl(remoteDataSource: serviceLocator()),
   );

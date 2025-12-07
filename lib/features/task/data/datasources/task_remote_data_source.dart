@@ -18,8 +18,6 @@ abstract interface class TaskRemoteDataSource {
   Future<void> updateTask({required String id, required String status});
 
   Future<void> deleteTask({required String id});
-
-  Future<List<TaskModel>> getTasks(String status, {required String userId});
 }
 
 class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
@@ -66,7 +64,6 @@ class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
     }
   }
 
-  @override
   Future<List<TaskModel>> getTasks(
     String status, {
     required String userId,
@@ -138,11 +135,6 @@ class TaskSupabaseDataSourceImpl implements TaskRemoteDataSource {
 
   @override
   Future<void> deleteTask({required String id}) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<TaskModel>> getTasks(String status, {required String userId}) {
     throw UnimplementedError();
   }
 

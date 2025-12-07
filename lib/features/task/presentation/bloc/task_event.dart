@@ -20,9 +20,3 @@ final class AddNewTask extends TaskEvent {
     required this.userId,
   });
 }
-
-final class GetTasks extends TaskEvent {
-  final String userId;
-
-  GetTasks({required this.userId});
-}

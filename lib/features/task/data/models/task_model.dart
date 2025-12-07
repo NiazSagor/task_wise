@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:task_wise/features/task/domain/entities/task.dart';
+import 'package:task_wise/core/common/entities/task.dart';
 
 class TaskModel extends Task {
   TaskModel({

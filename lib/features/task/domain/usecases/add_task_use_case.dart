@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart' hide Task;
 import 'package:task_wise/core/error/failures.dart';
 import 'package:task_wise/core/usecase/usecase.dart';
-import 'package:task_wise/features/task/domain/entities/task.dart';
+import 'package:task_wise/core/common/entities/task.dart';
 import 'package:task_wise/features/task/domain/repository/task_repository.dart';
 
 class AddTaskUseCase implements UseCase<Task, AddTaskParams> {
