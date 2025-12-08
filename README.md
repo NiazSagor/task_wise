@@ -26,7 +26,7 @@ core/
 └── utils/ errors/ shared modules
 
 ## 🗄️ Backend – Supabase
-![Supabase Logo](https://logo.svgcdn.com/logos/supabase.png)
+![Supabase Logo](https://logo.svgcdn.com/devicon/supabase-original.png)
 
 Used for:
 - Authentication (Email/Password)
@@ -69,6 +69,6 @@ Local storage uses:
 |------|---------|
 | ![Flutter](https://upload.wikimedia.org/wikipedia/commons/4/44/Google-flutter-logo.svg) | UI Framework |
 | ![Dart](https://upload.wikimedia.org/wikipedia/commons/f/fe/Dart_programming_language_logo.svg) | Language |
-| ![Supabase Logo](https://logo.svgcdn.com/logos/supabase.png) | Backend + Auth |
+| ![Supabase Logo](https://logo.svgcdn.com/devicon/supabase-original.png) | Backend + Auth |
 | ![Bloc Logo](https://bloclibrary.dev/assets/bloc_logo_full.png) | State Management |
 | 🗄️ Local DB | Offline-first storage |
