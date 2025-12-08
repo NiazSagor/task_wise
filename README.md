@@ -65,10 +65,4 @@ Local storage uses:
 ---
 
 ## 🧱 Tech Stack
-| Tech | Purpose |
-|------|---------|
-| ![Flutter](https://upload.wikimedia.org/wikipedia/commons/4/44/Google-flutter-logo.svg) | UI Framework |
-| ![Dart](https://upload.wikimedia.org/wikipedia/commons/f/fe/Dart_programming_language_logo.svg) | Language |
-| ![Supabase Logo](https://logo.svgcdn.com/devicon/supabase-original.png) | Backend + Auth |
-| ![Bloc Logo](https://bloclibrary.dev/assets/bloc_logo_full.png) | State Management |
-| 🗄️ Local DB | Offline-first storage |
+<p align="left"> <!-- Flutter --> <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png" width="90" /> <!-- Supabase --> <img src="https://logo.svgcdn.com/devicon/supabase-original.png" width="90" /> <!-- Bloc --> <img src="https://bloclibrary.dev/assets/bloc_logo_full.png" width="90" /> </p>
