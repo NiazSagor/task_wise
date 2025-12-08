@@ -1,9 +1,9 @@
-# 📝 Task Planner App
+### 📝 TaskWise
 A simple **Flutter** project demonstrating **Clean Architecture**, **Offline-First approach**, and **BLoC state management**, with **Supabase** for backend + authentication.
 
 ---
 
-## 🚀 Features
+#### 🚀 Features
 - Add tasks for a selected date
 - Edit/Delete tasks
 - Fully offline-first (local DB sync)
@@ -13,56 +13,44 @@ A simple **Flutter** project demonstrating **Clean Architecture**, **Offline-Fir
 
 ---
 
-## 🏛️ Architecture
+####  🏛️ Architecture
 This project follows **Clean Architecture**, separating the codebase into clear layers:
 
-presentation/
-└── bloc/ UI + BLoC
-domain/
-└── entities/ repository contracts
-data/
-└── models/ datasources/ repository implementations
-core/
-└── utils/ errors/ shared modules
-
-## 🗄️ Backend – Supabase
-![Supabase Logo](https://logo.svgcdn.com/devicon/supabase-original.png)
-
-Used for:
-- Authentication (Email/Password)
-- Cloud database
-- Sync with local storage (offline-first)
-
----
-
-## 🔐 Authentication
-Handled completely using **Supabase Auth**.
-
-Key features:
-- Email/Password login
-- Session handling
-- Getting current logged-in user
-- Auto-refresh tokens
-
----
-
-## 🧠 State Management – BLoC
-![Bloc Logo](https://bloclibrary.dev/assets/bloc_logo_full.png)
-
-Why BLoC?
-- Predictable state flow
-- Great testability
-- Clean separation of logic from UI
-
----
-
-## 💾 Offline First
-The app stores all tasks locally and syncs with backend when online.
-
-Local storage uses:
-- Hive
-
+    presentation/
+    └── bloc/ UI + BLoC
+    domain/
+    └── entities/ repository contracts
+    data/
+    └── models/ datasources/ repository implementations
+    core/
+    └── utils/ errors/ shared modules
 ---
 
 ## 🧱 Tech Stack
-<table> <tr> <td align="center"> <img src="https://logo.svgcdn.com/devicon/flutter-original.png" width="80" /><br/> <b>Flutter</b> </td> <td align="center"> <img src="https://logo.svgcdn.com/devicon/supabase-original.png" width="80" /><br/> <b>Supabase</b> </td> <td align="center"> <img src="https://bloclibrary.dev/_astro/bloc.DJLDGT9c_Z2azGxg.svg" width="80" /><br/> <b>Bloc</b> </td> </tr> </table>
+<table style="margin-top:0; padding-top:0;">
+   <tr>
+      <th>Technology</th>
+      <th>Description</th>
+   </tr>
+   <tr>
+      <td style="display:flex; align-items:center; gap:10px;">
+         <img src="https://logo.svgcdn.com/devicon/flutter-original.png" width="30">
+         <span><b>Flutter</b></span>
+      </td>
+      <td>A cross-platform UI framework used to build the app.</td>
+   </tr>
+   <tr>
+      <td style="display:flex; align-items:center; gap:10px;">
+         <img src="https://logo.svgcdn.com/devicon/supabase-original.png" width="40">
+         <span><b>Supabase</b></span>
+      </td>
+      <td>Backend service providing database, authentication, and API.</td>
+   </tr>
+   <tr>
+      <td style="display:flex; align-items:center; gap:10px;">
+         <img src="https://bloclibrary.dev/_astro/bloc.DJLDGT9c_Z2azGxg.svg" width="50">
+         <span><b>Bloc</b></span>
+      </td>
+      <td>State management solution used for handling business logic.</td>
+   </tr>
+</table>
