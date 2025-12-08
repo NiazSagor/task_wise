@@ -90,7 +90,7 @@ This project follows **Clean Architecture**, separating the codebase into clear 
 ---
 
 #### 📷 Screenshots
-<p align="center">
+<p>
     <img src="./ss/image4.jpeg" alt="Screenshot 1" width="200"/>
     <img src="ss/image5.jpeg" alt="Screenshot 1" width="200"/>
 </p>
