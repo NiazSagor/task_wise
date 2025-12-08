@@ -5,29 +5,51 @@ abstract interface class GetTasksLocalDataSource {
   void uploadTask({required List<TaskModel> tasks});
 
   List<TaskModel> getTasks();
+
+  List<TaskModel> getOfflineTasks();
+
+  void deleteOfflineTasks();
 }
 
 class GetTasksLocalDataSourceImpl implements GetTasksLocalDataSource {
-  final Box box;
+  final Box allTaskBox;
+  final Box offlineTaskBox;
 
-  GetTasksLocalDataSourceImpl({required this.box});
+  GetTasksLocalDataSourceImpl({
+    required this.allTaskBox,
+    required this.offlineTaskBox,
+  });
 
   @override
   List<TaskModel> getTasks() {
     final List<TaskModel> tasks = [];
-    for (var key in box.keys) {
-      tasks.add(TaskModel.fromJson(box.get(key)));
+    for (var key in allTaskBox.keys) {
+      tasks.add(TaskModel.fromJson(allTaskBox.get(key)));
     }
     return tasks;
   }
 
   @override
   void uploadTask({required List<TaskModel> tasks}) {
-    box.clear();
-    box.write(() {
+    allTaskBox.clear();
+    allTaskBox.write(() {
       for (var e in tasks) {
-        box.put(e.id, e.toJson());
+        allTaskBox.put(e.id, e.toJson());
       }
     });
+  }
+
+  @override
+  List<TaskModel> getOfflineTasks() {
+    final List<TaskModel> tasks = [];
+    for (var key in offlineTaskBox.keys) {
+      tasks.add(TaskModel.fromJson(offlineTaskBox.get(key)));
+    }
+    return tasks;
+  }
+
+  @override
+  void deleteOfflineTasks() {
+    offlineTaskBox.clear();
   }
 }

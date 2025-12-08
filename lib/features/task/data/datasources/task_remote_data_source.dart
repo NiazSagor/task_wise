@@ -7,12 +7,8 @@ import 'package:task_wise/features/task/data/models/task_model.dart';
 
 abstract interface class TaskRemoteDataSource {
   Future<TaskModel> createTask({
-    required String title,
-    required String description,
-    required String status,
-    required String hexColo,
-    required DateTime dueAt,
     required String userId,
+    required TaskModel task,
   });
 
   Future<void> updateTask({required String id, required String status});
@@ -27,17 +23,17 @@ class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
 
   @override
   Future<TaskModel> createTask({
-    required String title,
-    required String description,
-    required String status,
-    required String hexColo,
-    required DateTime dueAt,
     required String userId,
+    required TaskModel task,
   }) async {
     try {
       final response = await client.post(
         "/createTask",
-        data: {"title": title, "description": description, "status": status},
+        data: {
+          "title": task.title,
+          "description": task.description,
+          "status": task.status,
+        },
       );
       return TaskModel.fromJson(response.data);
     } on DioException catch (e) {
@@ -111,20 +107,16 @@ class TaskSupabaseDataSourceImpl implements TaskRemoteDataSource {
 
   @override
   Future<TaskModel> createTask({
-    required String title,
-    required String description,
-    required String status,
-    required String hexColo,
-    required DateTime dueAt,
+    required TaskModel task,
     required String userId,
   }) async {
     try {
       final response = await client.from("tasks").insert({
-        "title": title,
-        "description": description,
-        "dueAt": dueAt.toIso8601String(),
-        "created_at": DateTime.now().toIso8601String(),
-        "hexColor": hexColo,
+        "title": task.title,
+        "description": task.description,
+        "dueAt": task.dueAt.toIso8601String(),
+        "created_at": task.createdAt.toIso8601String(),
+        "hexColor": task.hexColor,
         "user_id": userId,
       }).select();
       return TaskModel.fromJson(response[0]);

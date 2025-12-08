@@ -34,4 +34,22 @@ class GetTaskRepositoryImpl implements GetTaskRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> syncTask({required String userId}) async {
+    try {
+      final offlineTasks = tasksLocalDataSource.getOfflineTasks();
+      if (offlineTasks.isEmpty) {
+        return right(null);
+      }
+      await remoteDataSource.syncTasks(
+        userId: userId,
+        offlineTasks: offlineTasks,
+      );
+      tasksLocalDataSource.deleteOfflineTasks();
+      return right(null);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

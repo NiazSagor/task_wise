@@ -41,7 +41,14 @@ Future<void> initDependencies() async {
   );
 
   Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
-  serviceLocator.registerLazySingleton(() => Hive.box(name: "tasks"));
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(name: "tasks"),
+    instanceName: "allTasks",
+  );
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(name: "offline_tasks"),
+    instanceName: "offlineTasks",
+  );
 }
 
 void _initAuth() {
@@ -86,7 +93,10 @@ void _initTask() {
     () => GetTaskSupabaseDataSource(client: serviceLocator()),
   );
   serviceLocator.registerFactory<GetTasksLocalDataSource>(
-    () => GetTasksLocalDataSourceImpl(box: serviceLocator()),
+    () => GetTasksLocalDataSourceImpl(
+      allTaskBox: serviceLocator.get<Box>(instanceName: 'allTasks'),
+      offlineTaskBox: serviceLocator.get<Box>(instanceName: 'offlineTasks'),
+    ),
   );
   serviceLocator.registerFactory<GetTaskRepository>(
     () => GetTaskRepositoryImpl(
@@ -97,7 +107,10 @@ void _initTask() {
   );
 
   serviceLocator.registerFactory<TaskLocalDataSource>(
-    () => TaskLocalDataSourceImpl(box: serviceLocator()),
+    () => TaskLocalDataSourceImpl(
+      allTaskBox: serviceLocator.get<Box>(instanceName: 'allTasks'),
+      offlineTaskBox: serviceLocator.get<Box>(instanceName: 'offlineTasks'),
+    ),
   );
 
   serviceLocator.registerFactory<TaskRepository>(
@@ -106,6 +119,9 @@ void _initTask() {
       localDataSource: serviceLocator(),
       connectionChecker: serviceLocator(),
     ),
+  );
+  serviceLocator.registerFactory(
+    () => SyncTasksUseCase(taskRepository: serviceLocator()),
   );
   serviceLocator.registerFactory(
     () => AddTaskUseCase(taskRepository: serviceLocator()),
@@ -128,6 +144,9 @@ void _initTask() {
   );
 
   serviceLocator.registerLazySingleton(
-    () => HomeBloc(getTasksUseCase: serviceLocator()),
+    () => HomeBloc(
+      getTasksUseCase: serviceLocator(),
+      syncTaskUseCase: serviceLocator(),
+    ),
   );
 }

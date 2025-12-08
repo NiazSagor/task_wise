@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
 import 'package:task_wise/core/common/widgets/loader.dart';
@@ -21,14 +24,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final StreamSubscription<InternetStatus> _subscription;
   DateTime selectedDate = DateTime.now();
+
+  void _getTasks() {
+    final userId =
+        (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
+    context.read<HomeBloc>().add(GetTasks(userId: userId));
+  }
+
+  void _syncTasks() {
+    final userId =
+        (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
+    context.read<HomeBloc>().add(SyncTasks(userId: userId));
+  }
 
   @override
   void initState() {
     super.initState();
-    final userId =
-        (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
-    context.read<HomeBloc>().add(GetTasks(userId: userId));
+    _subscription = InternetConnection().onStatusChange.listen((status) {
+      if (status == InternetStatus.connected) {
+        _syncTasks();
+      }
+    });
+    _getTasks();
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   @override

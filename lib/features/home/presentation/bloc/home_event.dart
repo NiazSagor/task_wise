@@ -8,3 +8,9 @@ final class GetTasks extends HomeEvent {
 
   GetTasks({required this.userId});
 }
+
+final class SyncTasks extends HomeEvent {
+  final String userId;
+
+  SyncTasks({required this.userId});
+}
