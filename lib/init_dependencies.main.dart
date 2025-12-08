@@ -41,7 +41,14 @@ Future<void> initDependencies() async {
   );
 
   Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
-  serviceLocator.registerLazySingleton(() => Hive.box(name: "tasks"));
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(name: "tasks"),
+    instanceName: "allTasks",
+  );
+  serviceLocator.registerLazySingleton(
+    () => Hive.box(name: "offline_tasks"),
+    instanceName: "offlineTasks",
+  );
 }
 
 void _initAuth() {
@@ -85,12 +92,36 @@ void _initTask() {
   serviceLocator.registerFactory<GetTaskRemoteDataSource>(
     () => GetTaskSupabaseDataSource(client: serviceLocator()),
   );
+  serviceLocator.registerFactory<GetTasksLocalDataSource>(
+    () => GetTasksLocalDataSourceImpl(
+      allTaskBox: serviceLocator.get<Box>(instanceName: 'allTasks'),
+      offlineTaskBox: serviceLocator.get<Box>(instanceName: 'offlineTasks'),
+    ),
+  );
   serviceLocator.registerFactory<GetTaskRepository>(
-    () => GetTaskRepositoryImpl(remoteDataSource: serviceLocator()),
+    () => GetTaskRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+      tasksLocalDataSource: serviceLocator(),
+      connectionChecker: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory<TaskLocalDataSource>(
+    () => TaskLocalDataSourceImpl(
+      allTaskBox: serviceLocator.get<Box>(instanceName: 'allTasks'),
+      offlineTaskBox: serviceLocator.get<Box>(instanceName: 'offlineTasks'),
+    ),
   );
 
   serviceLocator.registerFactory<TaskRepository>(
-    () => TaskRepositoryImpl(remoteDataSource: serviceLocator()),
+    () => TaskRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+      localDataSource: serviceLocator(),
+      connectionChecker: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => SyncTasksUseCase(taskRepository: serviceLocator()),
   );
   serviceLocator.registerFactory(
     () => AddTaskUseCase(taskRepository: serviceLocator()),
@@ -113,6 +144,9 @@ void _initTask() {
   );
 
   serviceLocator.registerLazySingleton(
-    () => HomeBloc(getTasksUseCase: serviceLocator()),
+    () => HomeBloc(
+      getTasksUseCase: serviceLocator(),
+      syncTaskUseCase: serviceLocator(),
+    ),
   );
 }
