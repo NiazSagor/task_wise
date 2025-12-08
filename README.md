@@ -16,8 +16,17 @@ A simple **Flutter** project demonstrating **Clean Architecture**, **Offline-Fir
 ## 🏛️ Architecture
 This project follows **Clean Architecture**, separating the codebase into clear layers:
 
+presentation/
+└── bloc/ UI + BLoC
+domain/
+└── entities/ repository contracts
+data/
+└── models/ datasources/ repository implementations
+core/
+└── utils/ errors/ shared modules
+
 ## 🗄️ Backend – Supabase
-![Supabase Logo](https://raw.githubusercontent.com/supabase/supabase/master/web/static/supabase-logo.svg)
+![Supabase Logo](https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png)
 
 Used for:
 - Authentication (Email/Password)
@@ -38,7 +47,7 @@ Key features:
 ---
 
 ## 🧠 State Management – BLoC
-![Bloc Logo](https://raw.githubusercontent.com/felangel/bloc/master/docs/assets/bloc_logo_full.png)
+![Bloc Logo](https://bloclibrary.dev/assets/bloc_logo_full.png)
 
 Why BLoC?
 - Predictable state flow
@@ -51,7 +60,7 @@ Why BLoC?
 The app stores all tasks locally and syncs with backend when online.
 
 Local storage uses:
-- **Hive
+- Hive
 
 ---
 
@@ -60,6 +69,6 @@ Local storage uses:
 |------|---------|
 | ![Flutter](https://upload.wikimedia.org/wikipedia/commons/4/44/Google-flutter-logo.svg) | UI Framework |
 | ![Dart](https://upload.wikimedia.org/wikipedia/commons/f/fe/Dart_programming_language_logo.svg) | Language |
-| ![Supabase](https://raw.githubusercontent.com/supabase/supabase/master/web/static/supabase-logo.svg) | Backend + Auth |
-| ![Bloc](https://raw.githubusercontent.com/felangel/bloc/master/docs/assets/bloc_logo_full.png) | State Management |
+| ![Supabase Logo](https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png) | Backend + Auth |
+| ![Bloc Logo](https://bloclibrary.dev/assets/bloc_logo_full.png) | State Management |
 | 🗄️ Local DB | Offline-first storage |
