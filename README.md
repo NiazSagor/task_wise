@@ -65,4 +65,4 @@ Local storage uses:
 ---
 
 ## 🧱 Tech Stack
-<p align="left"> <!-- Flutter --> <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png" width="90" /> <!-- Supabase --> <img src="https://logo.svgcdn.com/devicon/supabase-original.png" width="90" /> <!-- Bloc --> <img src="https://bloclibrary.dev/assets/bloc_logo_full.png" width="90" /> </p>
+<table> <tr> <td align="center"> <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png" width="80" /><br/> <b>Flutter</b> </td> <td align="center"> <img src="https://logo.svgcdn.com/devicon/supabase-original.png" width="80" /><br/> <b>Supabase</b> </td> <td align="center"> <img src="https://bloclibrary.dev/assets/bloc_logo_full.png" width="80" /><br/> <b>Bloc</b> </td> </tr> </table>
