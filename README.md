@@ -16,17 +16,35 @@ A simple **Flutter** project demonstrating **Clean Architecture**, **Offline-Fir
 ####  🏛️ Architecture
 This project follows **Clean Architecture**, separating the codebase into clear layers:
 
-    presentation/
-    └── bloc/ UI + BLoC
-    domain/
-    └── entities/ repository contracts
-    data/
-    └── models/ datasources/ repository implementations
-    core/
-    └── utils/ errors/ shared modules
+    lib/
+     ├─ core/
+     │   ├─ error/
+     │   ├─ usecase/
+     │   └─ utils/
+     │
+     ├─ features/
+     │   └─ tasks/
+     │       ├─ data/
+     │       │   ├─ datasources/
+     │       │   ├─ models/
+     │       │   └─ repositories/
+     │       ├─ domain/
+     │       │   ├─ entities/
+     │       │   ├─ repositories/
+     │       │   └─ usecases/
+     │       └─ presentation/
+     │           ├─ bloc/
+     │           ├─ pages/
+     │           └─ widgets/
+     │
+     ├─ services/
+     │   └─ supabase_service.dart
+     │
+     └─ main.dart
+
 ---
 
-## 🧱 Tech Stack
+#### 🧱 Tech Stack
 <table style="margin-top:0; padding-top:0;">
    <tr>
       <th>Technology</th>
@@ -53,4 +71,26 @@ This project follows **Clean Architecture**, separating the codebase into clear 
       </td>
       <td>State management solution used for handling business logic.</td>
    </tr>
+   <tr>
+      <td style="display:flex; align-items:center; gap:10px;">
+         <img src="https://logo.svgcdn.com/devicon/postgresql-original.png" width="40">
+         <span><b>PostgreSQL</b></span>
+      </td>
+      <td>Database is a relational database</td>
+   </tr>
+      <tr>
+      <td style="display:flex; align-items:center; gap:10px;">
+         <img src="https://raw.githubusercontent.com/hivedb/hive/master/.github/hive.svg" width="40">
+         <span><b>Hive</b></span>
+      </td>
+      <td>Local storage and caching</td>
+   </tr>
 </table>
+
+---
+
+#### 📷 Screenshots
+<p align="center">
+    <img src="./ss/image4.jpeg" alt="Screenshot 1" width="200"/>
+    <img src="ss/image5.jpeg" alt="Screenshot 1" width="200"/>
+</p>
