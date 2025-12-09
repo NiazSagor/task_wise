@@ -18,6 +18,61 @@ class DateSelector extends StatefulWidget {
 
 class _DateSelectorState extends State<DateSelector> {
   int weekOffset = 0;
+  final ScrollController _scrollController = ScrollController();
+  static const double _itemWidth = 78.0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedDate();
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant DateSelector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedDate != oldWidget.selectedDate) {
+      _scrollToSelectedDate();
+    }
+  }
+
+  void _scrollToSelectedDate() {
+    if (!_scrollController.hasClients) return;
+
+    final weekDates = generateWeekDays(weekOffset);
+
+    final initialIndex = weekDates.indexWhere((date) {
+      return date.day == widget.selectedDate.day &&
+          date.month == widget.selectedDate.month &&
+          date.year == widget.selectedDate.year;
+    });
+
+    if (initialIndex != -1) {
+      double offset = initialIndex * _itemWidth;
+      _scrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  void _changeWeek(int delta) {
+    setState(() {
+      weekOffset += delta;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedDate();
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +87,7 @@ class _DateSelectorState extends State<DateSelector> {
             children: [
               IconButton(
                 onPressed: () {
-                  setState(() {
-                    weekOffset--;
-                  });
+                  _changeWeek(-1);
                 },
                 icon: Icon(Icons.arrow_back_ios),
               ),
@@ -44,9 +97,7 @@ class _DateSelectorState extends State<DateSelector> {
               ),
               IconButton(
                 onPressed: () {
-                  setState(() {
-                    weekOffset++;
-                  });
+                  _changeWeek(1);
                 },
                 icon: Icon(Icons.arrow_forward_ios),
               ),
@@ -59,6 +110,7 @@ class _DateSelectorState extends State<DateSelector> {
           child: SizedBox(
             height: 80,
             child: ListView.builder(
+              controller: _scrollController,
               scrollDirection: Axis.horizontal,
               itemCount: weekDates.length,
               itemBuilder: (context, index) {
