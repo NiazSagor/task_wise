@@ -26,6 +26,14 @@ Future<void> initDependencies() async {
   );
 
   dio.interceptors.add(serviceLocator<AuthInterceptor>());
+  dio.interceptors.add(
+    LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+      error: true,
+      requestHeader: false,
+    ),
+  );
 
   serviceLocator.registerLazySingleton(() => dio);
 
@@ -53,7 +61,7 @@ Future<void> initDependencies() async {
 
 void _initAuth() {
   serviceLocator.registerFactory<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(supabaseClient: serviceLocator()),
+    () => AuthRemoteDataSourceImpl(client: serviceLocator()),
   );
 
   serviceLocator.registerFactory<AuthLocalDatSource>(
@@ -62,9 +70,10 @@ void _initAuth() {
 
   serviceLocator.registerFactory<AuthRepository>(
     () => AuthRepositoryImpl(
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
+      authRemoteDataSource: serviceLocator(),
+      authLocalDatSource: serviceLocator(),
+      sharedPreferences: serviceLocator(),
+      connectionChecker: serviceLocator(),
     ),
   );
 

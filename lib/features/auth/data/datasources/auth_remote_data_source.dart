@@ -1,45 +1,45 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:dio/dio.dart';
 import 'package:task_wise/core/error/exceptions.dart';
 import 'package:task_wise/features/auth/data/models/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Session? get currentUserSession;
-
   Future<UserModel> signUpWithEmailPassword({
+    required String firstName,
+    required String lastName,
     required String email,
-    required String password,
-    required String name,
-  });
-
-  Future<UserModel> loginWithEmailPassword({
-    required String email,
+    required String phoneNumber,
     required String password,
   });
 
-  Future<UserModel?> getCurrentUserData();
+  Future<String> loginWithEmailPassword({
+    required String email,
+    required String password,
+  });
+
+  Future<UserModel> getCurrentUserData();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final SupabaseClient supabaseClient;
+  final Dio client;
 
-  AuthRemoteDataSourceImpl({required this.supabaseClient});
+  AuthRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<UserModel> loginWithEmailPassword({
+  Future<String> loginWithEmailPassword({
     required String email,
     required String password,
   }) async {
     try {
-      final response = await supabaseClient.auth.signInWithPassword(
-        email: email,
-        password: password,
+      final response = await client.post(
+        "/Login",
+        data: {"email": email, "password": password},
       );
-      if (response.user == null) {
+      if (response.data["status"] != "success") {
         throw ServerException("User is null");
       }
-      return UserModel.fromJson(response.user!.toJson());
-    } on AuthException catch (e) {
-      throw ServerException(e.message);
+      return response.data["token"];
+    } on DioException catch (e) {
+      throw ServerException(e.message!);
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -47,41 +47,44 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel> signUpWithEmailPassword({
-    required String name,
+    required String firstName,
+    required String lastName,
     required String email,
+    required String phoneNumber,
     required String password,
   }) async {
     try {
-      final response = await supabaseClient.auth.signUp(
-        email: email,
-        password: password,
-        data: {"name": name, "email": email},
+      final response = await client.post(
+        "/Registration",
+        data: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "phoneNumber": phoneNumber,
+          "password": password,
+        },
       );
-      if (response.user == null) {
+      if (response.data["status"] != "success") {
         throw ServerException("User is null");
       }
-      return UserModel.fromJson(response.user!.toJson());
-    } on AuthException catch (e) {
-      throw ServerException(e.message);
+      return UserModel.fromJson(response.data["data"]);
+    } on DioException catch (e) {
+      throw ServerException(e.message!);
     } catch (e) {
       throw ServerException(e.toString());
     }
   }
 
   @override
-  Session? get currentUserSession => supabaseClient.auth.currentSession;
-
-  @override
-  Future<UserModel?> getCurrentUserData() async {
+  Future<UserModel> getCurrentUserData() async {
     try {
-      if (currentUserSession != null) {
-        final userData = await supabaseClient
-            .from("profiles")
-            .select()
-            .eq("id", currentUserSession!.user.id);
-        return UserModel.fromJson(userData.first);
+      final response = await client.get("/ProfileDetails");
+      if (response.data["status"] != "success") {
+        throw ServerException("User is null");
       }
-      return null;
+      return UserModel.fromJson(response.data["data"][0]);
+    } on DioException catch (e) {
+      throw ServerException(e.message!);
     } catch (e) {
       throw ServerException(e.toString());
     }

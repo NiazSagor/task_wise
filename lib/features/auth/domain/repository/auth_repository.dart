@@ -4,8 +4,10 @@ import 'package:task_wise/core/error/failures.dart';
 
 abstract interface class AuthRepository {
   Future<Either<Failure, User>> signUpWithEmailPassword({
-    required String name,
+    required String firstName,
+    required String lastName,
     required String email,
+    required String phoneNumber,
     required String password,
   });
 

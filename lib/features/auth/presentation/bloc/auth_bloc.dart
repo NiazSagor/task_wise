@@ -36,9 +36,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onAuthSignUp(AuthSignUp event, Emitter<AuthState> emit) async {
     final response = await _signUpUseCase(
       UserSignUpParams(
-        name: event.name,
         email: event.email,
         password: event.password,
+        firstName: event.firstName,
+        lastName: event.lastName,
+        phoneNumber: event.phoneNumber,
       ),
     );
     response.fold(
