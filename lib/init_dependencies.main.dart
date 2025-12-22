@@ -83,15 +83,6 @@ void _initAuth() {
   serviceLocator.registerFactory(
     () => UserLoginUseCase(authRepository: serviceLocator()),
   );
-
-  serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      signUpUseCase: serviceLocator(),
-      loginUseCase: serviceLocator(),
-      getCurrentUserUseCase: serviceLocator(),
-      appUserCubit: serviceLocator(),
-    ),
-  );
 }
 
 void _initTask() {
@@ -143,19 +134,5 @@ void _initTask() {
   );
   serviceLocator.registerFactory(
     () => UpdateTaskUseCase(taskRepository: serviceLocator()),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () => TaskBloc(
-      addTaskUseCase: serviceLocator(),
-      getTasksUseCase: serviceLocator(),
-    ),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () => HomeBloc(
-      getTasksUseCase: serviceLocator(),
-      syncTaskUseCase: serviceLocator(),
-    ),
   );
 }
