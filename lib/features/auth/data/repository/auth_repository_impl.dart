@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_wise/core/common/entities/user.dart';
@@ -38,11 +37,15 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    final token = await authRemoteDataSource.loginWithEmailPassword(
-      email: email,
-      password: password,
-    );
-    await sharedPreferences.setString(Constants.tokenKey, token);
+    try {
+      final token = await authRemoteDataSource.loginWithEmailPassword(
+        email: email,
+        password: password,
+      );
+      await sharedPreferences.setString(Constants.tokenKey, token);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
     return _getUser(
       () async => await authRemoteDataSource.getCurrentUserData(),
     );

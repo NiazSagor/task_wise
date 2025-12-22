@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:task_wise/core/common/widgets/loader.dart';
 import 'package:task_wise/core/utils/show_snackbar.dart';
-import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_wise/features/auth/presentation/pages/signup_page.dart';
+import 'package:task_wise/features/auth/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:task_wise/features/home/presentation/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,97 +30,93 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUser() {
     if (formKey.currentState!.validate()) {
-      context.read<AuthBloc>().add(
-        AuthLogin(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        ),
+      Provider.of<AuthViewModel>(context, listen: false).login(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = context.read<AuthViewModel>();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthFailure) {
-              showSnackBar(context, state.message);
-            } else if (state is AuthSuccess) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                HomePage.route(),
-                (_) => false,
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state is AuthLoading) {
-              Loader();
-            }
+        child: _buildBody(authViewModel),
+      ),
+    );
+  }
 
-            return Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildBody(AuthViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return Loader();
+    }
+
+    if (viewModel.isAuthenticated) {
+      Navigator.pushAndRemoveUntil(context, HomePage.route(), (_) => false);
+    }
+
+    if (viewModel.errorMessage != null) {
+      //showSnackBar(context, viewModel.errorMessage!);
+    }
+
+    return Form(
+      key: formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Login.",
+            style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 15),
+          TextFormField(
+            validator: (value) {
+              if (value!.trim().isEmpty) {
+                return "Please enter your email";
+              }
+              return null;
+            },
+            controller: emailController,
+            decoration: InputDecoration(hintText: "Email"),
+          ),
+          const SizedBox(height: 15),
+          TextFormField(
+            validator: (value) {
+              if (value!.trim().isEmpty) {
+                return "Please enter your password";
+              }
+              return null;
+            },
+            controller: passwordController,
+            decoration: InputDecoration(hintText: "Password"),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: loginUser,
+            child: Text(
+              "LOGIN",
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+          const SizedBox(height: 15),
+          GestureDetector(
+            onTap: () => Navigator.push(context, SignupPage.route()),
+            child: RichText(
+              text: TextSpan(
+                text: "Don't have an account? ",
+                style: Theme.of(context).textTheme.titleMedium,
                 children: [
-                  Text(
-                    "Login.",
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return "Please enter your email";
-                      }
-                      return null;
-                    },
-                    controller: emailController,
-                    decoration: InputDecoration(hintText: "Email"),
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    validator: (value) {
-                      if (value!.trim().isEmpty) {
-                        return "Please enter your password";
-                      }
-                      return null;
-                    },
-                    controller: passwordController,
-                    decoration: InputDecoration(hintText: "Password"),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: loginUser,
-                    child: Text(
-                      "LOGIN",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  GestureDetector(
-                    onTap: () => Navigator.push(context, SignupPage.route()),
-                    child: RichText(
-                      text: TextSpan(
-                        text: "Don't have an account? ",
-                        style: Theme.of(context).textTheme.titleMedium,
-                        children: [
-                          TextSpan(
-                            text: "Sign Up",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
+                  TextSpan(
+                    text: "Sign Up",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
