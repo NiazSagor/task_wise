@@ -96,10 +96,10 @@ void _initAuth() {
 
 void _initTask() {
   serviceLocator.registerFactory<TaskRemoteDataSource>(
-    () => TaskSupabaseDataSourceImpl(client: serviceLocator()),
+    () => TaskRemoteDatSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerFactory<GetTaskRemoteDataSource>(
-    () => GetTaskSupabaseDataSource(client: serviceLocator()),
+    () => GetTaskDataSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerFactory<GetTasksLocalDataSource>(
     () => GetTasksLocalDataSourceImpl(

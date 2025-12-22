@@ -35,7 +35,10 @@ class TaskRemoteDatSourceImpl implements TaskRemoteDataSource {
           "status": task.status,
         },
       );
-      return TaskModel.fromJson(response.data);
+      if (response.data["status"] != "success") {
+        throw ServerException("Task was not created");
+      }
+      return TaskModel.fromJson(response.data["data"]);
     } on DioException catch (e) {
       if (e.response != null) {
         throw ServerException(e.response!.data["message"]);

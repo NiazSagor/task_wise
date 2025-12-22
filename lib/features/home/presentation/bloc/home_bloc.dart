@@ -25,7 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void _getTasks(GetTasks event, Emitter<HomeState> emit) async {
     final result = await _getTasksUseCase(
-      GetTasksParams(status: "", userId: event.userId),
+      GetTasksParams(status: "new", userId: event.userId),
     );
 
     result.fold(

@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Expanded(
                             child: TaskCard(
-                              color: hexToColor(task.hexColor),
+                              color: Colors.cyan,
                               title: task.title,
                               description: task.description,
                             ),
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                             width: 10,
                             decoration: BoxDecoration(
                               color: strengthenColor(
-                                hexToColor(task.hexColor),
+                                Colors.cyan,
                                 0.69,
                               ),
                               shape: BoxShape.circle,
