@@ -91,14 +91,6 @@ class _HomePageState extends State<HomePage> {
         .toList();
     return Column(
       children: [
-        DateSelector(
-          selectedDate: selectedDate,
-          onDateSelected: (date) {
-            setState(() {
-              selectedDate = date;
-            });
-          },
-        ),
         SizedBox(height: 15),
         Expanded(
           child: ListView.builder(
