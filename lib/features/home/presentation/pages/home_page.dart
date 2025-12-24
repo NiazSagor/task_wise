@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -10,8 +9,10 @@ import 'package:task_wise/core/common/widgets/loader.dart';
 import 'package:task_wise/core/constants/utils.dart';
 import 'package:task_wise/core/utils/show_snackbar.dart';
 import 'package:task_wise/features/home/presentation/bloc/home_bloc.dart';
+import 'package:task_wise/features/home/presentation/widgets/add_task_button.dart';
 import 'package:task_wise/features/home/presentation/widgets/date_selector.dart';
 import 'package:task_wise/features/home/presentation/widgets/task_card.dart';
+import 'package:task_wise/features/home/presentation/widgets/today_date.dart';
 import 'package:task_wise/features/task/presentation/pages/add_new_task.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,15 +62,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("My Tasks"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, AddNewTaskPage.route());
-            },
-            icon: Icon(CupertinoIcons.add),
+        leading: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.dark_mode_outlined),
           ),
-        ],
+        ),
       ),
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
@@ -93,6 +92,23 @@ class _HomePageState extends State<HomePage> {
                 .toList();
             return Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TodayDate(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: AddTaskButton(
+                        onPressed: () {
+                          Navigator.push(context, AddNewTaskPage.route());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
                 DateSelector(
                   selectedDate: selectedDate,
                   onDateSelected: (date) {
