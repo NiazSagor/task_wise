@@ -16,10 +16,12 @@ class TaskModel extends Task {
       title: json['title'] ?? "",
       description: json['description'] ?? "",
       status: json['status'] ?? "",
-      id: json['id'].toString(),
-      hexColor: json['hexColor'] ?? "",
-      createdAt: DateTime.parse(json['created_at']),
-      dueAt: DateTime.parse(json['dueAt']),
+      id: json['_id'].toString(),
+      hexColor: json['hexColor'] ?? '#FFFFFF',
+      createdAt: DateTime.parse(json['createdDate']),
+      dueAt: json['dueAt'] != null
+          ? DateTime.parse(json['dueAt'])
+          : DateTime.now(),
     );
   }
 

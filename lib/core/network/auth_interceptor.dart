@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_wise/core/constants/constants.dart';
 
 class AuthInterceptor extends QueuedInterceptor {
   final SharedPreferences sharedPreferences;
-  static const String _tokenKey = 'auth_token';
 
   AuthInterceptor({required this.sharedPreferences});
 
@@ -12,12 +12,10 @@ class AuthInterceptor extends QueuedInterceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final token = sharedPreferences.getString(_tokenKey);
-
+    final token = sharedPreferences.getString(Constants.tokenKey);
     if (token != null) {
-      options.headers['Authorization'] = 'Bearer $token';
+      options.headers['token'] = token;
     }
-
     handler.next(options);
   }
 }

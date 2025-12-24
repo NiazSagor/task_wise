@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_wise/core/common/cubits/app_user_cubit.dart';
-import 'package:task_wise/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:task_wise/core/common/widgets/loader.dart';
+import 'package:task_wise/features/auth/domain/repository/auth_repository.dart';
 import 'package:task_wise/features/auth/presentation/pages/login_page.dart';
+import 'package:task_wise/features/auth/presentation/viewmodel/auth_viewmodel.dart';
+import 'package:task_wise/features/home/domain/repository/get_task_repository.dart';
 import 'package:task_wise/features/home/presentation/pages/home_page.dart';
-import 'package:task_wise/features/task/presentation/bloc/task_bloc.dart';
+import 'package:task_wise/features/home/presentation/viewmodel/task_viewmodel.dart';
+import 'package:task_wise/features/task/domain/repository/task_repository.dart';
+import 'package:task_wise/features/task/presentation/viewmodel/add_task_viewmodel.dart';
 import 'package:task_wise/init_dependencies.dart';
-
-import 'features/home/presentation/bloc/home_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
   runApp(
-    MultiBlocProvider(
+    MultiProvider(
       providers: [
-        BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
-        BlocProvider(create: (context) => serviceLocator<AuthBloc>()),
-        BlocProvider(create: (context) => serviceLocator<TaskBloc>()),
-        BlocProvider(create: (context) => serviceLocator<HomeBloc>()),
+        ChangeNotifierProvider(
+          lazy: false,
+          create: (context) =>
+              TaskViewModel(repository: serviceLocator<GetTaskRepository>()),
+        ),
+
+        ChangeNotifierProvider(
+          lazy: false,
+          create: (context) =>
+              AuthViewModel(repository: serviceLocator<AuthRepository>()),
+        ),
+
+        ChangeNotifierProvider(
+          create: (context) =>
+              AddTaskViewModel(repository: serviceLocator<TaskRepository>()),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -36,11 +50,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AuthIsUserLoggedIn());
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<AuthViewModel>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TaskWise',
@@ -75,18 +89,15 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: BlocSelector<AppUserCubit, AppUserState, bool>(
-        selector: (state) {
-          return state is AppUserLoggedIn;
-        },
-        builder: (context, isLoggedIn) {
-          if (isLoggedIn) {
-            return HomePage();
-          } else {
-            return LoginPage();
-          }
-        },
-      ),
+      home: _buildBody(viewModel),
     );
+  }
+
+  Widget _buildBody(AuthViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return Loader();
+    }
+    if (viewModel.errorMessage != null) {}
+    return viewModel.isAuthenticated ? HomePage() : LoginPage();
   }
 }

@@ -26,6 +26,14 @@ Future<void> initDependencies() async {
   );
 
   dio.interceptors.add(serviceLocator<AuthInterceptor>());
+  dio.interceptors.add(
+    LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+      error: true,
+      requestHeader: false,
+    ),
+  );
 
   serviceLocator.registerLazySingleton(() => dio);
 
@@ -53,7 +61,7 @@ Future<void> initDependencies() async {
 
 void _initAuth() {
   serviceLocator.registerFactory<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(supabaseClient: serviceLocator()),
+    () => AuthRemoteDataSourceImpl(client: serviceLocator()),
   );
 
   serviceLocator.registerFactory<AuthLocalDatSource>(
@@ -62,9 +70,10 @@ void _initAuth() {
 
   serviceLocator.registerFactory<AuthRepository>(
     () => AuthRepositoryImpl(
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
+      authRemoteDataSource: serviceLocator(),
+      authLocalDatSource: serviceLocator(),
+      sharedPreferences: serviceLocator(),
+      connectionChecker: serviceLocator(),
     ),
   );
 
@@ -74,23 +83,14 @@ void _initAuth() {
   serviceLocator.registerFactory(
     () => UserLoginUseCase(authRepository: serviceLocator()),
   );
-
-  serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      signUpUseCase: serviceLocator(),
-      loginUseCase: serviceLocator(),
-      getCurrentUserUseCase: serviceLocator(),
-      appUserCubit: serviceLocator(),
-    ),
-  );
 }
 
 void _initTask() {
   serviceLocator.registerFactory<TaskRemoteDataSource>(
-    () => TaskSupabaseDataSourceImpl(client: serviceLocator()),
+    () => TaskRemoteDatSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerFactory<GetTaskRemoteDataSource>(
-    () => GetTaskSupabaseDataSource(client: serviceLocator()),
+    () => GetTaskDataSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerFactory<GetTasksLocalDataSource>(
     () => GetTasksLocalDataSourceImpl(
@@ -134,19 +134,5 @@ void _initTask() {
   );
   serviceLocator.registerFactory(
     () => UpdateTaskUseCase(taskRepository: serviceLocator()),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () => TaskBloc(
-      addTaskUseCase: serviceLocator(),
-      getTasksUseCase: serviceLocator(),
-    ),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () => HomeBloc(
-      getTasksUseCase: serviceLocator(),
-      syncTaskUseCase: serviceLocator(),
-    ),
   );
 }
